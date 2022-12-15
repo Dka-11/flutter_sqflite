@@ -19,7 +19,7 @@ class HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Daftar Item'),
+        title: const Text('Daftar Item \n Adika Ahmad Hanif N.| 2041720171'),
       ),
       body: Column(
         children: [
