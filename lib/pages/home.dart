@@ -59,7 +59,28 @@ class HomeState extends State<Home> {
             itemList[index].name,
             style: textStyle,
           ),
-          subtitle: Text(itemList[index].price.toString()),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Harga : ${itemList[index].price}"),
+                  const SizedBox(
+                    height: 5.0,
+                  ),
+                  Text(
+                    "Stock : ${itemList[index].stock}",
+                    textAlign: TextAlign.right,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 5.0,
+              ),
+              Text(" ${itemList[index].itemCode}")
+            ],
+          ),
           trailing: GestureDetector(
             child: const Icon(Icons.delete),
             onTap: () async {

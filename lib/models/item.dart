@@ -2,11 +2,18 @@ class Item {
   int? _id;
   late String name;
   late int price;
+  late int stock;
+  late String itemCode;
 
   int? get id => _id;
 
   // Konstruktor Versi 1
-  Item({required this.name, required this.price});
+  Item({
+    required this.name,
+    required this.price,
+    required this.stock,
+    required this.itemCode,
+  });
 
   // Konstruktor Versi 2 : Konversi dari Map ke Item
   Item.fromMap(Map<String, dynamic> map) {
@@ -18,6 +25,8 @@ class Item {
     // Map id --> variable _id
     name = map['name'];
     price = map['price'];
+    stock = map['stock'];
+    itemCode = map['itemCode'];
   }
 
 // Convert from Item to Map
@@ -28,6 +37,8 @@ class Item {
       // "_id" is item convert to map "id"
       'name': name,
       'price': price,
+      'stock': stock,
+      'itemCode': itemCode,
     };
   }
 }

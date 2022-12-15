@@ -14,6 +14,8 @@ class EntryFormState extends State<EntryForm> {
 
   TextEditingController nameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
+  TextEditingController stockController = TextEditingController();
+  TextEditingController itemCodeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,8 @@ class EntryFormState extends State<EntryForm> {
       // Merubah tipe controller yang menyimpan data menjadi tipe item
       // yang kemudian dipanggil dengan variabel item.name, maybe ?
       priceController.text = widget.item!.price.toString();
+      stockController.text = widget.item!.stock.toString();
+      itemCodeController.text = widget.item!.itemCode;
     }
 
     return Scaffold(
@@ -67,6 +71,40 @@ class EntryFormState extends State<EntryForm> {
                 },
               )),
 
+          // Stock Barang
+          Padding(
+              padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+              child: TextField(
+                controller: stockController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: 'Stock Barang',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                ),
+                onChanged: (value) {
+                  // TODO : Method untuk form stock barang
+                },
+              )),
+
+          // itemCode Barang
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+            child: TextField(
+              controller: itemCodeController,
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                  labelText: 'Kode Barang',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                  )),
+              onChanged: (value) {
+                // TODO : method untuk form kode barang
+              },
+            ),
+          ),
+
           // Tombol Button
           Padding(
             padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
@@ -83,12 +121,17 @@ class EntryFormState extends State<EntryForm> {
                     if (widget.item == null) {
                       // Tambah Data
                       widget.item = Item(
-                          name: nameController.text,
-                          price: int.parse(priceController.text));
+                        name: nameController.text,
+                        price: int.parse(priceController.text),
+                        stock: int.parse(stockController.text),
+                        itemCode: itemCodeController.text,
+                      );
                     } else {
                       // Ubah Data
                       widget.item!.name = nameController.text;
                       widget.item!.price = int.parse(priceController.text);
+                      widget.item!.stock = int.parse(stockController.text);
+                      widget.item!.itemCode = itemCodeController.text;
                     }
                     // Kembali ke layar sebelumnya dengan membawa objek item
                     Navigator.pop(context, widget.item);

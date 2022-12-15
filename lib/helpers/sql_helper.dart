@@ -8,7 +8,9 @@ class SQLHelper {
       CREATE TABLE items (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT,
-        price INTEGER
+        price INTEGER,
+        stock INTEGER,
+        itemCode TEXT
       )
     ''');
     // Petik Tiga (''') digunakan untuk menyimpan data multiline
@@ -23,7 +25,7 @@ class SQLHelper {
   static Future<sql.Database> db() async {
     return sql.openDatabase(
       'adika.db',
-      version: 1,
+      version: 2,
       onCreate: createDB,
     );
   }
