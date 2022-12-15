@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sqlite/models/item.dart';
 
 class EntryForm extends StatefulWidget {
-  const EntryForm({super.key});
+  Item? item;
+  EntryForm({super.key, required this.item});
 
   @override
   EntryFormState createState() => EntryFormState();
@@ -10,25 +11,24 @@ class EntryForm extends StatefulWidget {
 
 class EntryFormState extends State<EntryForm> {
   // Nullable Type Item
-  Item? item = Item(name: '', price: 0);
 
   TextEditingController nameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    if (item != null) {
-      nameController.text = item!.name;
+    if (widget.item != null) {
+      nameController.text = widget.item!.name;
       // Merubah tipe controller yang menyimpan data menjadi tipe item
       // yang kemudian dipanggil dengan variabel item.name, maybe ?
-      priceController.text = item!.price.toString();
+      priceController.text = widget.item!.price.toString();
     }
 
     return Scaffold(
       appBar: AppBar(
         // The Operand can't be null, so the condition is always false, if the variable not nullable type
         // In this case make item to nullable type
-        title: item == null ? const Text('Tambah') : const Text('Ubah'),
+        title: widget.item == null ? const Text('Tambah') : const Text('Ubah'),
         leading: const Icon(Icons.keyboard_arrow_left),
       ),
       body: ListView(
@@ -80,18 +80,18 @@ class EntryFormState extends State<EntryForm> {
                     textScaleFactor: 1.5,
                   ),
                   onPressed: () {
-                    if (item == null) {
+                    if (widget.item == null) {
                       // Tambah Data
-                      item = Item(
+                      widget.item = Item(
                           name: nameController.text,
                           price: int.parse(priceController.text));
                     } else {
                       // Ubah Data
-                      item!.name = nameController.text;
-                      item!.price = int.parse(priceController.text);
+                      widget.item!.name = nameController.text;
+                      widget.item!.price = int.parse(priceController.text);
                     }
                     // Kembali ke layar sebelumnya dengan membawa objek item
-                    Navigator.pop(context, item);
+                    Navigator.pop(context, widget.item);
                   },
                 )),
                 Container(

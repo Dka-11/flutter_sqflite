@@ -1,9 +1,9 @@
 class Item {
-  late int _id;
+  int? _id;
   late String name;
   late int price;
 
-  int get id => _id;
+  int? get id => _id;
 
   // Konstruktor Versi 1
   Item({required this.name, required this.price});

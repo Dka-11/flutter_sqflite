@@ -31,11 +31,10 @@ class HomeState extends State<Home> {
               child: SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const EntryForm()));
+                    onPressed: () async {
+                      Item item = await navigateToEntryForm(context, null);
+                      int result = await SQLHelper.createItem(item);
+                      if (result > 0) updateListView();
                     },
                     child: const Text('Tambah Item')),
               ))
@@ -47,6 +46,7 @@ class HomeState extends State<Home> {
   ListView createListView() {
     TextStyle? textStyle = Theme.of(context).textTheme.headline5;
     return ListView.builder(
+      itemCount: count,
       itemBuilder: (context, index) => Card(
         color: Colors.white,
         elevation: 2.0,
@@ -63,29 +63,31 @@ class HomeState extends State<Home> {
           trailing: GestureDetector(
             child: const Icon(Icons.delete),
             onTap: () async {
+              SQLHelper.deleteItem(itemList[index].id!);
+              updateListView();
               // 3 TODO : Delete by id
             },
           ),
           onTap: () async {
-            /*
-            var item = await navigateToEntryForm(context, itemlist[index]);
-            */
+            Item item = await navigateToEntryForm(context, itemList[index]);
+            SQLHelper.updateItem(item);
+            updateListView();
             // 4 TODO : Edit by id
           },
         ),
       ),
     );
   }
-/*
-Future<Item> navigateToEntryForm(context, item) async{
-  var result = await Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => const EntryForm()),
-    );
-    return result
-}
-*/
+
+  Future<Item> navigateToEntryForm(context, Item? item) async {
+    var result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => EntryForm(
+                  item: item,
+                )));
+    return result;
+  }
 
   void updateListView() {
     final Future<Database> dbFuture = SQLHelper.db();
